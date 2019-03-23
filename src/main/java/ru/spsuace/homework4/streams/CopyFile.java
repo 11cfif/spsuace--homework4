@@ -2,8 +2,8 @@ package ru.spsuace.homework4.streams;
 
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
+import java.nio.file.Files;
+
 
 public class CopyFile {
 
@@ -37,12 +37,10 @@ public class CopyFile {
      * Реализовать копирование больших файлов.
      */
     public static void copyBigFiles(String path) throws IOException {
+        String fileExtension = path.substring(path.indexOf("."));
+        Files.copy(new File(path).toPath(), new File("E:\\bigFile" + fileExtension).toPath());
     }
 
-    public static void main(String[] arg) throws Exception {
-        copySmallFiles("E:\\test.txt", "E:\\test1.txt");
-        //System.out.println;
-    }
 }
 
 
