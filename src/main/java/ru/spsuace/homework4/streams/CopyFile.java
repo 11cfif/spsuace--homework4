@@ -29,16 +29,23 @@ public class CopyFile {
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-        return allString;
+        return "Ok";
     }
-
 
     /**
      * Реализовать копирование больших файлов.
      */
     public static void copyBigFiles(String path) throws IOException {
-        String fileExtension = path.substring(path.indexOf("."));
-        Files.copy(new File(path).toPath(), new File("E:\\bigFile" + fileExtension).toPath());
+        String fileExtension = "";
+        if (path.indexOf(".") != -1) {
+            fileExtension = path.substring(path.indexOf("."));
+        }
+        try {
+            Files.copy(new File(path).toPath(), new File("E:\\bigFile" + fileExtension).toPath());
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+
     }
 
 }
