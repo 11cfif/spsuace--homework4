@@ -14,28 +14,36 @@ public class CopyFile {
      * Реализовать копирование маленьких файлов, через чтение и запись всех строк разом.
      * Если не получилось скопировать файл, то вернуть причину. Если получилось - вернуть "Ok"
      */
-    private static String getExtension(String path) {
-        String fileExtension = "";
-        if (path.indexOf(".") != -1) {
-            fileExtension = path.substring(path.indexOf("."));
-        }
-        return fileExtension;
-    }
 
-    public static String copySmallFiles(String pathFrom, String pathTo) throws Exception {
-        Files.write(Paths.get(pathTo + getExtension(pathFrom)), Files.readAllLines(Paths.get(pathFrom), Charset.forName("windows-1251")));
-        return "Ok";
+    public static String copySmallFiles(String pathFrom, String pathTo) {
+        try {
+            FileWriter writer = new FileWriter(new File(pathTo));
+            Path path = Paths.get(pathFrom);
+            List<String> allLines = Files.readAllLines(Paths.get(pathFrom), Charset.forName("windows-1251"));
+            for (String line : allLines) {
+                writer.write(line + "\n");
+            }
+            writer.close();
+            return "Ok";
+        } catch (IOException ex) {
+            System.out.println(ex);
+            return ex.toString();
+        }
     }
 
     /**
      * Реализовать копирование больших файлов.
      */
     public static void copyBigFiles(String pathFrom, String pathTo) throws IOException {
-        Files.copy(Paths.get(pathFrom), Paths.get(pathTo + getExtension(pathFrom)));
-    }
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(pathFrom), Charset.forName("windows-1251")));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(pathTo), Charset.forName("windows-1251")));
 
-    public static void main(String[] arg) throws Exception {
-        copySmallFiles("E:\\test.txt", "E:\\test1.txt");
+        String str;
+        while ((str = br.readLine()) != null) {
+            bw.write(str + "\n");
+        }
+        br.close();
+        bw.close();
     }
 
 }
