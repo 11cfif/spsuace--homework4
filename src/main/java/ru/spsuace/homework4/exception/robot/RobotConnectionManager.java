@@ -31,5 +31,16 @@ public interface RobotConnectionManager {
      */
     static void moveRobot(RobotConnectionManager robotConnectionManager, int toX, int toY) {
 
+        for (int i = 0; i < 3; i++) {
+            try (RobotConnection connection = robotConnectionManager.getConnection()) {
+                connection.moveRobotTo(10, 10);
+                return;
+            } catch (RobotException e) {
+                if (i == 2) {
+                    throw new RobotException("failed");
+                }
+            }
+        }
+
     }
 }
