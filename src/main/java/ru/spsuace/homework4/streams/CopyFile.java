@@ -16,10 +16,8 @@ public class CopyFile {
      */
     public static String copySmallFiles(String pathFrom, String pathTo) {
         try {
-            FileWriter writer = new FileWriter(new File(pathTo));
-            Path path = Paths.get(pathFrom);
-            List<String> allLines = Files.readAllLines(Paths.get(pathFrom),
-                    Charset.forName("windows-1251"));
+            Files.write(Paths.get(pathTo), Files.readAllLines(Paths.get(pathFrom),
+                    Charset.forName("windows-1251")));
             return "Ok";
         } catch (IOException ex) {
             return ex.toString();
