@@ -14,12 +14,12 @@ public class CopyFile {
      * Реализовать копирование маленьких файлов, через чтение и запись всех строк разом.
      * Если не получилось скопировать файл, то вернуть причину. Если получилось - вернуть "Ok"
      */
-
     public static String copySmallFiles(String pathFrom, String pathTo) {
         try {
             FileWriter writer = new FileWriter(new File(pathTo));
             Path path = Paths.get(pathFrom);
-            List<String> allLines = Files.readAllLines(Paths.get(pathFrom), Charset.forName("windows-1251"));
+            List<String> allLines = Files.readAllLines(Paths.get(pathFrom),
+                    Charset.forName("windows-1251"));
             return "Ok";
         } catch (IOException ex) {
             return ex.toString();
