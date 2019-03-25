@@ -31,20 +31,13 @@ public class CopyFile {
                 }
 
                 Path writeFile = Paths.get(file.toString());
-                try (BufferedWriter writer = Files.newBufferedWriter(writeFile)) {
-
-                    for (int i = 0; i < strings.size(); i++) {
-                        writer.write(strings.get(i) + "\n");
-                    }
-
-                    return "Ok";
-                }
-
+                Files.write(writeFile, strings);
+                return "Ok";
             } catch (Exception e) {
-                return "failed";
+                return e.getMessage();
             }
         }
-        return "not such file";
+        return "no such file";
     }
 
     /**
