@@ -17,22 +17,9 @@ public class Directories {
     public static int remove(String path) {
         File path1 = new File(path);
 
-        return new Directories().recursiveDelete(path1);
+    return 0;
     }
 
-    private int recursiveDelete(File file) {
-        if (!file.exists()) {
-            return 0;
-        }
-        if (file.isDirectory()) {
-            for (File f : file.listFiles()) {
-                recursiveDelete(f);
-            }
-        }
-        file.delete();
-        this.count++;
-        return count;
-    }
 
     public static void main(String[] arg) {
         System.out.println(Directories.remove("E:\\test"));

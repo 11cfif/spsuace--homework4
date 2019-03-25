@@ -20,13 +20,8 @@ public class CopyFile {
             FileWriter writer = new FileWriter(new File(pathTo));
             Path path = Paths.get(pathFrom);
             List<String> allLines = Files.readAllLines(Paths.get(pathFrom), Charset.forName("windows-1251"));
-            for (String line : allLines) {
-                writer.write(line + "\n");
-            }
-            writer.close();
             return "Ok";
         } catch (IOException ex) {
-            System.out.println(ex);
             return ex.toString();
         }
     }
@@ -35,15 +30,14 @@ public class CopyFile {
      * Реализовать копирование больших файлов.
      */
     public static void copyBigFiles(String pathFrom, String pathTo) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(pathFrom), Charset.forName("windows-1251")));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(pathTo), Charset.forName("windows-1251")));
-
-        String str;
-        while ((str = br.readLine()) != null) {
-            bw.write(str + "\n");
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(pathFrom))) {
+            try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathTo))) {
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    bufferedWriter.write(line + "\n");
+                }
+            }
         }
-        br.close();
-        bw.close();
     }
 
 }
