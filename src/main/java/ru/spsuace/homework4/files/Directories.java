@@ -1,6 +1,10 @@
 package ru.spsuace.homework4.files;
 
+import java.io.IOException;
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Directories {
 
@@ -14,21 +18,27 @@ public class Directories {
     public static int remove(String path) {
 
         int count = 0;
-        return deleteFile(new File(path), count);
+        return deleteFile(Paths.get(path), count);
     }
 
-    private static int deleteFile(File file, int count) {
+    private static int deleteFile(Path pathOfFile, int count) {
 
-        if (!file.exists())
+        if (!Files.exists(pathOfFile)) {
             return count;
+        }
 
-        if (file.isDirectory()) {
-            for (File f : file.listFiles()) {
-                count = deleteFile(f, count);
+        if (Files.isDirectory(pathOfFile)) {
+            for (File f : (pathOfFile.toFile()).listFiles()) {
+                count = deleteFile(f.toPath(), count);
             }
         }
 
-        file.delete();
+        try {
+            Files.delete(pathOfFile);
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+
         count++;
         return count;
     }
