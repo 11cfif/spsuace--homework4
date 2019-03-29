@@ -9,18 +9,21 @@ import java.nio.file.Files;
 
 public class Directories extends SimpleFileVisitor<Path> {
     static int i = 0;
+
     @Override
     public FileVisitResult visitFile(Path dir, BasicFileAttributes attrs)
             throws IOException {
-        if(Files.deleteIfExists(dir))
-        { i++;}
+        if (Files.deleteIfExists(dir)) {
+            i++;
+        }
         return FileVisitResult.CONTINUE;
     }
 
     @Override
     public FileVisitResult visitFileFailed(Path dir, IOException exc) throws IOException {
-        if(Files.deleteIfExists(dir))
-        { i++;}
+        if (Files.deleteIfExists(dir)) {
+            i++;
+        }
         return FileVisitResult.CONTINUE;
     }
 
@@ -41,12 +44,12 @@ public class Directories extends SimpleFileVisitor<Path> {
      * Если директории по существующему пути нет, то возвращаем 0.
      */
     public static int remove(String path) throws IOException {
-        i=0;
+        i = 0;
         Path dir = Paths.get(path);
-        if (!Files.exists(dir)){
+        if (!Files.exists(dir)) {
             return 0;
         }
-        Directories fileRes= new Directories();
+        Directories fileRes = new Directories();
         Files.walkFileTree(dir, fileRes);
 
         return i;
