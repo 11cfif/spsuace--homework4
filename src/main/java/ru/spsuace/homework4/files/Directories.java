@@ -9,6 +9,7 @@ import java.nio.file.Files;
 
 public class Directories extends SimpleFileVisitor<Path> {
     static int i = 0;
+    static Directories fileRes = new Directories();
 
     @Override
     public FileVisitResult visitFile(Path dir, BasicFileAttributes attrs)
@@ -49,7 +50,7 @@ public class Directories extends SimpleFileVisitor<Path> {
         if (!Files.exists(dir)) {
             return 0;
         }
-        Directories fileRes = new Directories();
+
         Files.walkFileTree(dir, fileRes);
 
         return i;
