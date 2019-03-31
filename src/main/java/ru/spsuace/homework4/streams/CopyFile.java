@@ -51,6 +51,8 @@ public class CopyFile {
             fileReader.close();
             fileWriter.close();
         } else {
+            fileReader.close();
+            fileWriter.close();
             throw new IOException("Ошибка чтения или записи");
         }
     }
