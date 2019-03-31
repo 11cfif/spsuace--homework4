@@ -40,20 +40,13 @@ public class CopyFile {
      */
     public static void copyBigFiles(String pathFrom, String pathTo) throws IOException {
 
-        FileReader fileReader = new FileReader(pathFrom);
-        FileWriter fileWriter = new FileWriter(pathTo);
-        Scanner scanner = new Scanner(fileReader);
-        if (!fileWriter.equals(null) && !fileReader.equals(null)) {
+        try (FileReader fileReader = new FileReader(pathFrom);
+             FileWriter fileWriter = new FileWriter(pathTo);
+             Scanner scanner = new Scanner(fileReader)) {
             while (scanner.hasNextLine()) {
                 fileWriter.write(scanner.nextLine());
             }
-
-            fileReader.close();
-            fileWriter.close();
-        } else {
-            fileReader.close();
-            fileWriter.close();
-            throw new IOException("Ошибка чтения или записи");
         }
+
     }
 }
