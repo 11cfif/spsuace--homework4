@@ -28,7 +28,7 @@ public class CopyFile {
             Files.write(path, text, StandardCharsets.UTF_8);
             answer = "ok";
         } catch (IOException e) {
-            answer = "Something gone wrong..";
+            answer = e.getMessage();
         } finally {
             return answer;
         }
@@ -43,12 +43,15 @@ public class CopyFile {
         FileReader fileReader = new FileReader(pathFrom);
         FileWriter fileWriter = new FileWriter(pathTo);
         Scanner scanner = new Scanner(fileReader);
+        if (!fileWriter.equals(null) && !fileReader.equals(null)) {
+            while (scanner.hasNextLine()) {
+                fileWriter.write(scanner.nextLine());
+            }
 
-        while (scanner.hasNextLine()) {
-            fileWriter.write(scanner.nextLine());
+            fileReader.close();
+            fileWriter.close();
+        } else {
+            throw new IOException("Ошибка чтения или записи");
         }
-
-        fileReader.close();
-        fileWriter.close();
     }
 }
