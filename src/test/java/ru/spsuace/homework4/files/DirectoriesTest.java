@@ -34,7 +34,7 @@ public class DirectoriesTest {
         for (int i = 0; i < 10; i++) {
             createFile(Paths.get("src", "test", "resources", "directories", "first", "file" + i + ".txt"));
         }
-        assertEquals(11, Directories.removeWithFile(dir.toString()));
+        assertEquals(11, Directories.removeWithPath(dir.toString()));
     }
 
     @Test
@@ -56,20 +56,20 @@ public class DirectoriesTest {
         Files.createDirectories(dir6);
         Path dir7 = Paths.get("src", "test", "resources", "directories", "second", "dir2", "dir2dir1", "dirdir");
         Files.createDirectories(dir7);
-        assertEquals(8, Directories.removeWithFile(dir.toString()));
+        assertEquals(8, Directories.removeWithPath(dir.toString()));
     }
 
     @Test
     public void one() throws IOException {
         Path dir = Paths.get("src", "test", "resources", "directories", "third");
         Files.createDirectories(dir);
-        assertEquals(1, Directories.removeWithFile(dir.toString()));
+        assertEquals(1, Directories.removeWithPath(dir.toString()));
     }
 
     @Test
     public void empty() throws IOException {
         Path dir = Paths.get("src", "test", "resources", "directories", "forth");
-        assertEquals(0, Directories.removeWithFile(dir.toString()));
+        assertEquals(0, Directories.removeWithPath(dir.toString()));
     }
 
 
@@ -114,7 +114,7 @@ public class DirectoriesTest {
             createFile(Paths.get("src", "test", "resources", "directories", "fifth", "dir2", "dir2dir1", "dirdir",
                     "file" + i + ".txt"));
         }
-        assertEquals(35, Directories.removeWithFile(dir.toString()));
+        assertEquals(35, Directories.removeWithPath(dir.toString()));
 
     }
 
