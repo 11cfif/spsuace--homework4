@@ -2,9 +2,8 @@ package ru.spsuace.homework4.files;
 
 import java.io.IOException;
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 
 public class Directories {
 
@@ -23,7 +22,32 @@ public class Directories {
     /**
      * С использованием Path
      */
-    public static int removeWithPath(String path)  {
-        return 0;
+    public static class DeleterVisitor extends SimpleFileVisitor<Path> {
+        int countFilesAndDirectories = 0;
+
+        @Override
+        public FileVisitResult postVisitDirectory(Path path, IOException exc) throws IOException {
+            Files.delete(path);
+            countFilesAndDirectories += 1;
+            return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
+            Files.delete(path);
+            countFilesAndDirectories += 1;
+            return FileVisitResult.CONTINUE;
+        }
+    }
+
+    public static int removeWithPath(String path) throws IOException {
+        Path start = Paths.get(path);
+        DeleterVisitor deletePaths = new DeleterVisitor();
+        try {
+            Files.walkFileTree(start, deletePaths);
+        } catch (IOException exception) {
+        }
+
+        return deletePaths.countFilesAndDirectories;
     }
 }
