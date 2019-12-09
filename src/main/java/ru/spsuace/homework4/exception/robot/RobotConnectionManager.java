@@ -21,7 +21,18 @@ public interface RobotConnectionManager {
      * Если так же произошла неудача, то прокинуть эту ошибку на уровень выше.
      * Попытка считается успешной, если соединение открылось и вызвался метод moveRobotTo без исключений.
      */
-    static void moveRobot(RobotConnectionManager robotConnectionManager, int toX, int toY) {
 
+    static void moveRobot(RobotConnectionManager robotConnectionManager, int toX, int toY) {
+        boolean success = false;
+        for (int i = 0; !success && (i < 3); ++i) {
+            try (RobotConnection connection = robotConnectionManager.getConnection()) {
+                connection.moveRobotTo(toX, toY);
+                success = true;
+                System.out.println(toX + " " + toY);
+            } catch (NullPointerException ignored) {}
+        }
+        if (!success) {
+            throw new RobotConnectionException("Not connect");
+        }
     }
 }
