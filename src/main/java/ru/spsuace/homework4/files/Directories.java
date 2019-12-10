@@ -65,7 +65,6 @@ public class Directories {
                 count += deleteWithPath(entry);
             }
         } catch (IOException e) {
-            e.getSuppressed();
         }
 
         Files.delete(file);
