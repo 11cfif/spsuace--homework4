@@ -13,6 +13,7 @@ public class Directories {
      * Метод должен возвращать количество удаленных файла и директорий.
      * Если директории по существующему пути нет, то возвращаем 0.
      * Написать двумя способами. С использованием File
+     *
      * @return
      */
     public static int removeWithFile(String path) {
@@ -20,11 +21,13 @@ public class Directories {
         int count = 0;
         File directory = new File(path);
         if (!directory.exists()) {
+            directory.delete();
             return count;
         }
         File[] listFiles = directory.listFiles();
         if (listFiles == null) {
-            count +=1;
+            count += 1;
+
         } else {
             for (int i = 0; i < listFiles.length; i++) {
                 if (listFiles[i].isFile()) {
@@ -37,7 +40,8 @@ public class Directories {
             }
             directory.delete();
             count += 1;
-        };
+        }
+        ;
         return count;
     }
 
@@ -46,5 +50,33 @@ public class Directories {
      * С использованием Path
      */
 
+    public static class RemoveVisitor extends SimpleFileVisitor<Path> {
+        int count = 0;
 
+        @Override
+        public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+            Files.delete(dir);
+            count += 1;
+            return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult visitFile(Path dir, BasicFileAttributes attrs) throws IOException {
+            Files.delete(dir);
+            count += 1;
+            return FileVisitResult.CONTINUE;
+        }
+    }
+
+    public static int removeWithPath(String path) {
+        Path start = Paths.get(path);
+        RemoveVisitor deletePaths = new RemoveVisitor();
+        try {
+            Files.walkFileTree(start, deletePaths);
+        } catch (IOException exception) {
+        }
+        return deletePaths.count;
+    }
 }
+
+
