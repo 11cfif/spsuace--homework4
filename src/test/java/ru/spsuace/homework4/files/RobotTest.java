@@ -1,14 +1,30 @@
 package ru.spsuace.homework4.files;
 
 import org.junit.Test;
+import ru.spsuace.homework4.exception.robot.Connection;
 import ru.spsuace.homework4.exception.robot.Robot;
-
-import static junit.framework.TestCase.assertEquals;
+import ru.spsuace.homework4.exception.robot.RobotConnectionManager;
 
 public class RobotTest {
+
     @Test
     public void MainTest() {
-        assertEquals(equals(new int[] {-4,8}), equals(Robot.main((x, y) -> (int)(-(Math.pow((x+4),2)+Math.pow((y-8),2))))));
-        assertEquals(equals(new int[] {4,-12}), equals(Robot.main((x, y) -> (int)(-(Math.pow((x-4),2)+Math.pow((y+12),2))))));
+        Connection robotConnectManager = new Connection();
+        for (int i = 1; i < 100; i++) {
+            System.out.println(i +" attempt");
+
+            if (Robot.func(Robot.getX(), Robot.getY()) < Robot.func(Robot.getX() + 1, Robot.getY())) {
+                Robot.step(Robot.Direction.RIGHT);
+            } else if (Robot.func(Robot.getX(), Robot.getY()) < Robot.func(Robot.getX(),Robot.getY() + 1)) {
+                Robot.step(Robot.Direction.UP);
+            } else if (Robot.func(Robot.getX(), Robot.getY()) < Robot.func(Robot.getX() - 1, Robot.getY())) {
+                Robot.step(Robot.Direction.LEFT);
+            } else if (Robot.func(Robot.getX(), Robot.getY()) < Robot.func(Robot.getX() , Robot.getY() - 1)) {
+                Robot.step(Robot.Direction.DOWN);
+            } else {
+                return;
+            }
+            RobotConnectionManager.moveRobot(robotConnectManager, Robot.getX(), Robot.getY());
+        }
     }
 }

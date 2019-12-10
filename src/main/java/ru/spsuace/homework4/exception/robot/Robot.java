@@ -9,42 +9,20 @@ import java.util.function.BiFunction;
  */
 public class Robot {
 
+
+    /**Поверхность по которому ходит робот*/
     private static int x = 0;
     private static int y = 0;
 
-    private enum Direction {
+    public enum Direction {
         UP,
         DOWN,
         LEFT,
         RIGHT
     }
 
-    /**Робот взбирается в гору*/
-
-    public static int[] main(BiFunction<Integer, Integer, Integer> function) {
-        Connection robotConnectManager = new Connection();
-        for (int i = 1; i < 100; i++) {
-            System.out.println(i +" attempt");
-
-            if (function.apply(x,y) < function.apply(x + 1,y)) {
-                step(Direction.RIGHT);
-            } else if (function.apply(x,y) < function.apply(x,y + 1)) {
-                step(Direction.UP);
-            } else if (function.apply(x,y) < function.apply(x - 1,y)) {
-                step(Direction.LEFT);
-            } else if (function.apply(x,y) < function.apply(x ,y - 1)) {
-                step(Direction.DOWN);
-            } else {
-                return new int[] {x, y};
-            }
-            RobotConnectionManager.moveRobot(robotConnectManager, x, y);
-        }
-        return new int[] {x, y};
-    }
-
     /**Шаги*/
-
-    private static void step(Direction direction) {
+    public static void step(Direction direction) {
         switch (direction){
             case UP:
                 y++;
@@ -61,4 +39,15 @@ public class Robot {
         }
     }
 
+    /**Поверхность по которому ходит робот*/
+    public static double func(int x, int y) {
+        return -(Math.pow((x+4),2)+Math.pow((y-8),2));
+    }
+
+    public static int getX () {
+        return x;
+    }
+    public static int getY () {
+        return y;
+    }
 }
