@@ -16,8 +16,6 @@ import static org.junit.Assert.*;
 
 public class DirectoriesTest {
 
-
-
     @After
     public void tearDown() throws Exception {
         FileUtils.deleteDirectory(Paths.get("src", "test", "resources", "directories", "first").toFile());
@@ -64,6 +62,15 @@ public class DirectoriesTest {
         Path dir = Paths.get("src", "test", "resources", "directories", "third");
         Files.createDirectories(dir);
         assertEquals(1, Directories.removeWithPath(dir.toString()));
+    }
+
+    @Test
+    public void oneFile() throws IOException {
+        Path dir = Paths.get("src", "test", "resources", "directories", "third");
+        Files.createDirectories(dir);
+        Path file = Paths.get("src", "test", "resources", "directories", "third", "file.txt");
+        createFile(file);
+        assertEquals(1, Directories.removeWithFile(file.toString()));
     }
 
     @Test
