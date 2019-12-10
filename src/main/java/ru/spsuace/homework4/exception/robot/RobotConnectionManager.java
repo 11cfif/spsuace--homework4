@@ -14,6 +14,13 @@ public interface RobotConnectionManager {
      * Делает попытку соединиться с роботом, и если получилось, возвращает это соединение.
      * Если соединение не установилось - то метод кидает непроверяемое исключение
      */
+
+    public class connectionFaildExeption extends RuntimeException{
+        public connectionFaildExeption(String message) {
+            super(message);
+        }
+    }
+
     RobotConnection getConnection();
 
     /**
@@ -22,6 +29,14 @@ public interface RobotConnectionManager {
      * Попытка считается успешной, если соединение открылось и вызвался метод moveRobotTo без исключений.
      */
     static void moveRobot(RobotConnectionManager robotConnectionManager, int toX, int toY) {
-
+        for (int tryCount = 0; true; tryCount++) {
+            try (RobotConnection connection = robotConnectionManager.getConnection()){
+                connection.moveRobotTo(toX, toY);
+            } catch (connectionFaildExeption e) {
+                if (tryCount == 2){
+                    throw e;
+                }
+            }
+        }
     }
 }
