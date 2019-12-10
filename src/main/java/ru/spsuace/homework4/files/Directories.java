@@ -59,15 +59,13 @@ public class Directories {
     private static int deleteWithPath(Path file) throws IOException {
         int count = 0;
 
-        if (Files.isDirectory(file)){
-            try (DirectoryStream<Path> stream = Files.newDirectoryStream(file)) {
-                for (Path entry : stream) {
-                    count++;
-                    count += deleteWithPath(entry);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(file)) {
+            for (Path entry : stream) {
+                count++;
+                count += deleteWithPath(entry);
             }
+        } catch (IOException e) {
+            e.getSuppressed();
         }
 
         Files.delete(file);
