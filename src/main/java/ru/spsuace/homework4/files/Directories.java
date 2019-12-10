@@ -1,22 +1,50 @@
 package ru.spsuace.homework4.files;
 
-public class Directories {
+import javax.naming.NamingException;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 
+public class Directories {
 
     /**
      * Реализовать рекурсивное удаление всех файлов и дерикторий из директороии по заданному пути.
      * Метод должен возвращать количество удаленных файла и директорий.
      * Если директории по существующему пути нет, то возвращаем 0.
      * Написать двумя способами. С использованием File
+     * @return
      */
     public static int removeWithFile(String path) {
-        return 0;
+
+        int count = 0;
+        File directory = new File(path);
+        if (!directory.exists()) {
+            return count;
+        }
+        File[] listFiles = directory.listFiles();
+        if (listFiles == null) {
+            count +=1;
+        } else {
+            for (int i = 0; i < listFiles.length; i++) {
+                if (listFiles[i].isFile()) {
+                    listFiles[i].delete();
+                    count += 1;
+                }
+                if (listFiles[i].isDirectory()) {
+                    count += removeWithFile(listFiles[i].getPath());
+                }
+            }
+            directory.delete();
+            count += 1;
+        };
+        return count;
     }
+
 
     /**
      * С использованием Path
      */
-    public static int removeWithPath(String path) {
-        return 0;
-    }
+
+
 }
