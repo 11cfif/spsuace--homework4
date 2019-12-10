@@ -1,6 +1,13 @@
 package ru.spsuace.homework4.files;
 
+import javafx.scene.shape.Path;
+
+import java.io.IOException;
 import java.io.File;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+
+
 
 public class Directories {
 
@@ -39,9 +46,37 @@ public class Directories {
     }
 
     /**
-     * С использованием Path
+     * С использованием Path\
      */
-    public static int removeWithPath(String path) {
-      return 0;
+    public static int removeWithPath(String path) throws IOException {
+        RemoverVisitor delete = new RemoverVisitor();
+        Files.walkFileTree(Paths.get(path), delete);
+        return delete.countDeletedElements;
     }
+    public static  class RemoverVisitor extends SimpleFileVisitor<java.nio.file.Path> implements FileVisitor<java.nio.file.Path> {
+
+        int countDeletedElements = 0;
+
+        @Override
+        public FileVisitResult visitFile(java.nio.file.Path path, BasicFileAttributes basicFileAttributes) throws IOException {
+            File current = path.toFile();
+            current.delete();
+            countDeletedElements++;
+            return FileVisitResult.CONTINUE;
+        }
+
+        @Override
+        public FileVisitResult visitFileFailed(java.nio.file.Path path, IOException e) throws IOException {
+            return FileVisitResult.TERMINATE;
+        }
+
+        @Override
+        public FileVisitResult postVisitDirectory(java.nio.file.Path path, IOException e) throws IOException {
+            File current = path.toFile();
+            current.delete();
+            countDeletedElements++;
+            return FileVisitResult.CONTINUE;
+        }
+    }
+
 }
