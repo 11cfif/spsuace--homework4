@@ -15,31 +15,30 @@ public class Directories {
      * Написать двумя способами. С использованием File
      */
     public static int removeWithFile(String path) {
-        final File mainFile = new File(path);
-
-        int countFilesAndDirectories = 0;
-        if (mainFile.exists() && mainFile.isDirectory()) {
-            File[] allContents = mainFile.listFiles();
-            if (allContents != null) {
-                for (File currentFile : allContents) {
-                    if (currentFile.isFile()) {
-                        currentFile.delete();
-                        countFilesAndDirectories += 1;
-                    }
-                    if (currentFile.isDirectory()) {
-                        countFilesAndDirectories += removeWithFile(currentFile.getPath());
+        final File mainDir = new File(path);
+        int countDeletedFilesDirs = 0;
+        if (mainDir.exists()) {
+            if (mainDir.isDirectory()) {
+                File[] children = mainDir.listFiles();
+                if (children != null) {
+                    for (File currentChild : children) {
+                        if (currentChild.isFile()) {
+                            currentChild.delete();
+                            countDeletedFilesDirs += 1;
+                        } else if (currentChild.isDirectory()) {
+                            countDeletedFilesDirs += removeWithFile(currentChild.getPath());
+                        }
                     }
                 }
-                countFilesAndDirectories += 1;
-            } else {
-                countFilesAndDirectories = 1;
-                return countFilesAndDirectories;
+                mainDir.delete();
+                countDeletedFilesDirs += 1;
             }
-            mainFile.delete();
-        } else {
-            return 0;
+            if (mainDir.isFile()) {
+                mainDir.delete();
+                countDeletedFilesDirs += 1;
+            }
         }
-        return countFilesAndDirectories;
+        return countDeletedFilesDirs;
     }
 
     /**
