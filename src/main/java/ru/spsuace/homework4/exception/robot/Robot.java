@@ -1,5 +1,7 @@
 package ru.spsuace.homework4.exception.robot;
 
+import java.util.function.BiFunction;
+
 /**
  * Дополнительное задание. Реализовать простого робота.
  * У него должны быть координаты, работа с ними и все остальное на ваше усмотрение
@@ -17,26 +19,27 @@ public class Robot {
         RIGHT
     }
 
-    /**Робот взберается в гору*/
+    /**Робот взбирается в гору*/
 
-    public static void main(String[] args) {
-        RobotConnectManager robotConnectManager = new RobotConnectManager();
+    public static int[] main(BiFunction<Integer, Integer, Integer> function) {
+        Connection robotConnectManager = new Connection();
         for (int i = 1; i < 100; i++) {
             System.out.println(i +" attempt");
 
-            if (func(x,y) < func(x + 1,y)){
+            if (function.apply(x,y) < function.apply(x + 1,y)) {
                 step(Direction.RIGHT);
-            } else if (func(x,y) < func(x,y + 1)){
+            } else if (function.apply(x,y) < function.apply(x,y + 1)) {
                 step(Direction.UP);
-            } else if (func(x,y) < func(x - 1,y)){
+            } else if (function.apply(x,y) < function.apply(x - 1,y)) {
                 step(Direction.LEFT);
-            } else if (func(x,y) < func(x ,y - 1)) {
+            } else if (function.apply(x,y) < function.apply(x ,y - 1)) {
                 step(Direction.DOWN);
             } else {
-                return;
+                return new int[] {x, y};
             }
             RobotConnectionManager.moveRobot(robotConnectManager, x, y);
         }
+        return new int[] {x, y};
     }
 
     /**Шаги*/
@@ -56,11 +59,6 @@ public class Robot {
                 x++;
                 break;
         }
-    }
-
-    /**Поверхность по которому ходит робот*/
-    private static double func(int x, int y) {
-        return -(Math.pow((x+4),2)+Math.pow((y-8),2));
     }
 
 }

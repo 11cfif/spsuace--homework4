@@ -29,10 +29,9 @@ public interface RobotConnectionManager {
                 connection.moveRobotTo(toX, toY);
                 success = true;
                 System.out.println(toX + " " + toY);
-            } catch (NullPointerException ignored) {}
-        }
-        if (!success) {
-            throw new RobotConnectionException("Not connect");
+            } catch (NullPointerException ignored) {
+                throw new RobotConnectionException("Not connect");
+            }
         }
     }
 }

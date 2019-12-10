@@ -1,11 +1,11 @@
 package ru.spsuace.homework4.exception.robot;
 
-public class RobotConnectManager implements RobotConnectionManager {
+public class Connection implements RobotConnectionManager {
 
     /**Вероятность с которой робот сделает шаг*/
 
     private boolean getRandom() {
-        return Math.random() < 0.95;
+        return Math.random() < 0.98;
     }
 
     @Override
