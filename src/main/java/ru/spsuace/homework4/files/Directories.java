@@ -2,8 +2,10 @@ package ru.spsuace.homework4.files;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Directories {
 
@@ -45,32 +47,23 @@ public class Directories {
     /**
      * С использованием Path
      */
-    public static class DeleterVisitor extends SimpleFileVisitor<Path> {
-        int countFilesAndDirectories = 0;
-
-        @Override
-        public FileVisitResult postVisitDirectory(Path path, IOException exc) throws IOException {
-            Files.delete(path);
-            countFilesAndDirectories += 1;
-            return FileVisitResult.CONTINUE;
+    public static int removeWithPath(String path) throws IOException {
+        final Path file = Paths.get(path);
+        if (!file.toFile().exists()) {
+            return 0;
         }
-
-        @Override
-        public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
-            Files.delete(path);
-            countFilesAndDirectories += 1;
-            return FileVisitResult.CONTINUE;
-        }
+        return deletePath(file) + 1;
     }
 
-    public static int removeWithPath(String path) throws IOException {
-        Path start = Paths.get(path);
-        DeleterVisitor deletePaths = new DeleterVisitor();
-        try {
-            Files.walkFileTree(start, deletePaths);
-        } catch (IOException exception) {
+    private static int deletePath(Path file) throws IOException {
+        int count = 0;
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(file)) {
+            for (Path entry : stream) {
+                count++;
+                count += deletePath(entry);
+            }
         }
-
-        return deletePaths.countFilesAndDirectories;
+        Files.delete(file);
+        return count;
     }
 }
