@@ -30,6 +30,9 @@ public class Directories {
             }
             mainDir.delete();
             countDeletedFilesDirs += 1;
+        } else if (mainDir.isFile()){
+            mainDir.delete();
+            countDeletedFilesDirs += 1;
         }
         return  countDeletedFilesDirs;
     }
@@ -38,6 +41,6 @@ public class Directories {
      * С использованием Path
      */
     public static int removeWithPath(String path) {
-        return 0;
+      return 0;
     }
 }
