@@ -16,8 +16,7 @@ public class Directories {
         int countDeletedFilesDirs = 0;
         if (mainDir.exists()) {
             if (mainDir.isDirectory()) {
-                File[] children;
-                children = mainDir.listFiles();
+                File[] children= mainDir.listFiles();
                 if (children != null) {
                     for (File currentChild : children) {
                         if (currentChild.isFile()) {
