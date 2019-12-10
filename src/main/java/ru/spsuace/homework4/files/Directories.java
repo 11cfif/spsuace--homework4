@@ -18,13 +18,11 @@ public class Directories {
 
         int count = 0;
         File main = new File(path);
-        if (!main.exists() && !main.isDirectory()) {
+        if (!main.exists()) {
             return count;
         }
         File[] listFiles = main.listFiles();
-        if (listFiles == null) {
-            count = 1;
-        } else {
+        if (listFiles != null) {
             for (int i = 0; i < listFiles.length; i++) {
                 if (listFiles[i].isFile()) {
                     listFiles[i].delete();
@@ -34,9 +32,9 @@ public class Directories {
                     count += removeWithFile(listFiles[i].getPath());
                 }
             }
-            main.delete();
-            count += 1;
-        };
+        }
+        main.delete();
+        count += 1;
         return count;
     }
 }
