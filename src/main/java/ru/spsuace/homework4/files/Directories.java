@@ -1,5 +1,4 @@
 package ru.spsuace.homework4.files;
-
 import java.io.File;
 
 public class Directories {
