@@ -70,7 +70,7 @@ public class DirectoriesTest {
         Files.createDirectories(dir);
         Path file = Paths.get("src", "test", "resources", "directories", "third", "file.txt");
         createFile(file);
-        assertEquals(1, Directories.removeWithPath(file.toString()));
+        assertEquals(1, Directories.removeWithFile(file.toString()));
     }
 
     @Test

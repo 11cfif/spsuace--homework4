@@ -20,7 +20,6 @@ public class Directories {
      */
     public static int removeWithFile(String path) {
         final File mainFile = new File(path);
-
         int count = 0;
         if (mainFile.exists() && mainFile.isDirectory()) {
             File[] allContents = mainFile.listFiles();
@@ -29,18 +28,17 @@ public class Directories {
                     if (currentFile.isFile()) {
                         currentFile.delete();
                         count += 1;
-                    }
-                    if (currentFile.isDirectory()) {
+                    } else if (currentFile.isDirectory()) {
                         count += removeWithFile(currentFile.getPath());
                     }
                 }
-                count += 1;
-            } else {
-                return count;
             }
+
             mainFile.delete();
-        } else {
-            return 0;
+            count+=1;
+        } if(mainFile.isFile()){
+            mainFile.delete();
+            count+=1;
         }
         return count;
     }
