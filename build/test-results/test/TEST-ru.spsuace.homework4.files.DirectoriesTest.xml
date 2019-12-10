@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ru.spsuace.homework4.files.DirectoriesTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2019-12-09T19:33:03" hostname="DESKTOP-8SQ9BR6" time="0.235">
+  <properties/>
+  <testcase name="onlyFiles" classname="ru.spsuace.homework4.files.DirectoriesTest" time="0.235"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
