@@ -14,27 +14,29 @@ public class Directories {
     public static int removeWithFile(String path) {
         final File mainDir = new File(path);
         int countDeletedFilesDirs = 0;
-        File[] children;
-        if (mainDir.exists() && mainDir.isDirectory()){
-            children = mainDir.listFiles();
-            if (children != null){
-                for (File currentChild : children) {
-                    if (currentChild.isFile()) {
-                        currentChild.delete();
-                        countDeletedFilesDirs += 1;
-                    } else if (currentChild.isDirectory()){
-                        countDeletedFilesDirs += removeWithFile(currentChild.getPath());;
+        if (mainDir.exists()) {
+            if (mainDir.isDirectory()) {
+                File[] children;
+                children = mainDir.listFiles();
+                if (children != null) {
+                    for (File currentChild : children) {
+                        if (currentChild.isFile()) {
+                            currentChild.delete();
+                            countDeletedFilesDirs += 1;
+                        } else if (currentChild.isDirectory()) {
+                            countDeletedFilesDirs += removeWithFile(currentChild.getPath());
+                        }
                     }
-
                 }
+                mainDir.delete();
+                countDeletedFilesDirs += 1;
             }
-            mainDir.delete();
-            countDeletedFilesDirs += 1;
-        } else if (mainDir.isFile()){
-            mainDir.delete();
-            countDeletedFilesDirs += 1;
+            if (mainDir.isFile()) {
+                mainDir.delete();
+                countDeletedFilesDirs += 1;
+            }
         }
-        return  countDeletedFilesDirs;
+        return countDeletedFilesDirs;
     }
 
     /**
