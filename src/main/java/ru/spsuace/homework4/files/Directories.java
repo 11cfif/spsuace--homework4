@@ -17,17 +17,15 @@ public class Directories {
      * @return
      */
     public static int removeWithFile(String path) {
-
         int count = 0;
         File directory = new File(path);
         if (!directory.exists()) {
-            directory.delete();
             return count;
         }
         File[] listFiles = directory.listFiles();
         if (listFiles == null) {
             count += 1;
-
+            directory.delete();
         } else {
             for (int i = 0; i < listFiles.length; i++) {
                 if (listFiles[i].isFile()) {
@@ -41,7 +39,6 @@ public class Directories {
             directory.delete();
             count += 1;
         }
-        ;
         return count;
     }
 
