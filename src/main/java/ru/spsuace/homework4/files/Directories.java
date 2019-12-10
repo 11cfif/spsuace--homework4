@@ -46,7 +46,7 @@ public class Directories {
     /**
      * С использованием Path
      */
-    public static int removeWithPath(String path){
+    public static int removeWithPath(String path) {
         final Path file = Paths.get(path);
 
         if (!file.toFile().exists()) {
@@ -59,12 +59,14 @@ public class Directories {
     private static int deleteWithPath(Path file) {
         int count = 0;
 
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(file)) {
-            for (Path entry : stream) {
-                count++;
-                count += deleteWithPath(entry);
+        if (Files.isDirectory(file)) {
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(file)) {
+                for (Path entry : stream) {
+                    count++;
+                    count += deleteWithPath(entry);
+                }
+            } catch (IOException e) {
             }
-        } catch (IOException e) {
         }
 
         try {
