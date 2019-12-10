@@ -1,6 +1,13 @@
 package ru.spsuace.homework4.files;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Directories {
 
@@ -43,7 +50,27 @@ public class Directories {
     /**
      * С использованием Path
      */
-    public static int removeWithPath(String path) {
-        return 0;
+    public static int removeWithPath(String path) throws IOException {
+        Path directory = Paths.get(path);
+        int counter = 0;
+
+        if (!Files.isDirectory(directory)) {
+            if (Files.isRegularFile(directory)) {
+                Files.delete(directory);
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+        try {
+            List<Path> directoryList = Files.walk(directory).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+            for (Path item : directoryList) {
+                Files.deleteIfExists(item);
+                counter++;
+            }
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+        return counter;
     }
 }
