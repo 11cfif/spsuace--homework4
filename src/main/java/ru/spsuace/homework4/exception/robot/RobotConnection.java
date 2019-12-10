@@ -11,7 +11,6 @@ public interface RobotConnection extends AutoCloseable {
      * В любой момент соединение может оборваться и тогда любой из методов может кинуть непроверяемое исключение
      */
     void moveRobotTo(int x, int y);
-
     @Override
     void close();
 }
