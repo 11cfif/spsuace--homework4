@@ -1,6 +1,12 @@
 package ru.spsuace.homework4.exception.robot;
 
-public class Connection implements RobotConnectionManager {
+import java.util.function.BiFunction;
+
+public class SimpleConnectionManager implements RobotConnectionManager {
+
+    public SimpleConnectionManager(BiFunction<Integer, Integer, Integer> function) {
+        Robot robot = new Robot(function);
+    }
 
     /**Вероятность с которой робот сделает шаг*/
 

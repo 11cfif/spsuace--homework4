@@ -28,8 +28,8 @@ public interface RobotConnectionManager {
             try (RobotConnection connection = robotConnectionManager.getConnection()) {
                 connection.moveRobotTo(toX, toY);
                 success = true;
-                System.out.println(toX + " " + toY);
-            } catch (NullPointerException ignored) {
+                System.out.println("coordinate: " + toX + " " + toY);
+            } catch (RobotConnectionException e) {
                 throw new RobotConnectionException("Not connect");
             }
         }

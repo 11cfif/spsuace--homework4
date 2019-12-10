@@ -7,8 +7,25 @@ import java.util.function.BiFunction;
  * У него должны быть координаты, работа с ними и все остальное на ваше усмотрение
  * (Если придумаете что-нибудь интересное и красивое, получите 2 балла)
  */
+
 public class Robot {
 
+    private static boolean finish = false;
+
+    Robot(BiFunction<Integer, Integer, Integer> function) {
+
+        if (function.apply(x,y) < function.apply(x + 1,y)){
+            step(Direction.RIGHT);
+        } else if (function.apply(x,y) < function.apply(x,y + 1)){
+            step(Direction.UP);
+        } else if (function.apply(x,y) < function.apply(x - 1,y)){
+            step(Direction.LEFT);
+        } else if (function.apply(x,y) < function.apply(x ,y - 1)) {
+            step(Direction.DOWN);
+        } else {
+            finish = true;
+        }
+    }
 
     /**Поверхность по которому ходит робот*/
     private static int x = 0;
@@ -22,7 +39,7 @@ public class Robot {
     }
 
     /**Шаги*/
-    public static void step(Direction direction) {
+    private static void step(Direction direction) {
         switch (direction){
             case UP:
                 y++;
@@ -39,15 +56,14 @@ public class Robot {
         }
     }
 
-    /**Поверхность по которому ходит робот*/
-    public static double func(int x, int y) {
-        return -(Math.pow((x+4),2)+Math.pow((y-8),2));
-    }
-
     public static int getX () {
         return x;
     }
     public static int getY () {
         return y;
+    }
+
+    public static boolean getFinish () {
+        return finish;
     }
 }
