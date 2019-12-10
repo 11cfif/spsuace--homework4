@@ -37,6 +37,8 @@ public class Directories {
                 return countFilesAndDirectories;
             }
             mainFile.delete();
+        } else if (mainFile.isFile()) {
+            return 1;
         } else {
             return 0;
         }
@@ -66,7 +68,7 @@ public class Directories {
         }
     }
 
-    public static int removeWithPath(String path) throws IOException {
+    public static int removeWithPath(String path) {
         Path start = Paths.get(path);
         DeleterVisitor deletePaths = new DeleterVisitor();
         try {
