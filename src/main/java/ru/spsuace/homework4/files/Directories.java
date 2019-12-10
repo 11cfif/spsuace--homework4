@@ -2,14 +2,13 @@ package ru.spsuace.homework4.files;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
 public class Directories {
-
-    public static int countRemoveElement;
 
     /**
      * Реализовать рекурсивное удаление всех файлов и дерикторий из директороии по заданному пути.
@@ -19,53 +18,57 @@ public class Directories {
      */
     public static int removeWithFile(String path) {
         final File file = new File(path);
-        countRemoveElement = 1;
-
-        return deleteWithFile(file);
-    }
-
-    private static int deleteWithFile(File file) {
 
         if (!file.exists()) {
             return 0;
         }
 
+        return deleteWithFile(file) + 1;
+    }
+
+    private static int deleteWithFile(File file) {
+        int count = 0;
+
+        if (!file.exists()) {
+            return 0;
+        }
         if (file.isDirectory()) {
-            for (File f : Objects.requireNonNull(file.listFiles())) {
-                countRemoveElement++;
-                deleteWithFile(f);
+            for (File f : file.listFiles()) {
+                count++;
+                count += deleteWithFile(f);
             }
         }
 
         file.delete();
-        return countRemoveElement;
+        return count;
     }
 
     /**
      * С использованием Path
      */
     public static int removeWithPath(String path) throws IOException {
-
         final Path file = Paths.get(path);
-        countRemoveElement = 1;
-
-        return deleteWithPath(file);
-    }
-
-    private static int deleteWithPath(Path file) throws IOException {
 
         if (!file.toFile().exists()) {
             return 0;
         }
 
-        if (file.toFile().isDirectory()) {
-            for (File f : Objects.requireNonNull(file.toFile().listFiles())) {
-                countRemoveElement++;
-                deleteWithPath(f.toPath());
+        return deleteWithPath(file) + 1;
+    }
+
+    private static int deleteWithPath(Path file) throws IOException {
+        int count = 0;
+
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(file)) {
+            for (Path entry : stream) {
+                count++;
+                count += deleteWithPath(entry);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         Files.delete(file);
-        return countRemoveElement;
+        return count;
     }
 }
