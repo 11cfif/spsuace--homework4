@@ -23,14 +23,15 @@ public interface RobotConnectionManager {
      */
 
     static void moveRobot(RobotConnectionManager robotConnectionManager, int toX, int toY) {
-        boolean success = false;
-        for (int i = 0; !success && (i < 3); ++i) {
+        for (int i = 0; true; ++i) {
             try (RobotConnection connection = robotConnectionManager.getConnection()) {
                 connection.moveRobotTo(toX, toY);
-                success = true;
                 System.out.println("coordinate: " + toX + " " + toY);
+                break;
             } catch (RobotConnectionException e) {
-                throw e;
+                if (i == 2) {
+                    throw e;
+                }
             }
         }
     }

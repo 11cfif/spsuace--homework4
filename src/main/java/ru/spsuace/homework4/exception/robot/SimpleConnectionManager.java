@@ -12,7 +12,7 @@ public class SimpleConnectionManager implements RobotConnectionManager {
     /**Вероятность с которой робот сделает шаг*/
 
     private boolean getRandom() {
-        return Math.random() < 0.98;
+        return Math.random() < 0.6;
     }
 
     @Override
