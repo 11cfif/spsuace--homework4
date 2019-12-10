@@ -11,9 +11,13 @@ import java.util.function.BiFunction;
 public class Robot {
 
     private static boolean finish = false;
+    private BiFunction<Integer, Integer, Integer> function;
 
     Robot(BiFunction<Integer, Integer, Integer> function) {
+        this.function = function;
+    }
 
+    public void ascend() {
         if (function.apply(x,y) < function.apply(x + 1,y)){
             step(Direction.RIGHT);
         } else if (function.apply(x,y) < function.apply(x,y + 1)){

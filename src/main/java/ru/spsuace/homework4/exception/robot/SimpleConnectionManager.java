@@ -6,6 +6,7 @@ public class SimpleConnectionManager implements RobotConnectionManager {
 
     public SimpleConnectionManager(BiFunction<Integer, Integer, Integer> function) {
         Robot robot = new Robot(function);
+        robot.ascend();
     }
 
     /**Вероятность с которой робот сделает шаг*/
