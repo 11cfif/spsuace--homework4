@@ -62,7 +62,7 @@ public class Directories {
         }
     }
 
-    public static int removeWithPath(String path) throws IOException {
+    public static int removeWithPath(String path)  {
         Path start = Paths.get(path);
         DeleterVisitor deletePaths = new DeleterVisitor();
         try {
