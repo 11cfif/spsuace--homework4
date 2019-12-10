@@ -29,7 +29,9 @@ public interface RobotConnectionManager {
                 connection.moveRobotTo(toX, toY);
                 success = true;
                 System.out.println("coordinate: " + toX + " " + toY);
-            } catch (RobotConnectionException e) {}
+            } catch (RobotConnectionException e) {
+                throw e;
+            }
         }
     }
 }
