@@ -74,19 +74,6 @@ public class Directories {
             e.printStackTrace();
         }
 
-        return deletePath(file) + 1;
-    }
-
-    private static int deletePath(Path file) throws IOException {
-        int count = 0;
-        try (DirectoryStream<Path> stream = (DirectoryStream<Path>) Files.walk(file)
-                .sorted(Comparator.reverseOrder())
-                .collect(Collectors.toList())) {
-            for (Path entry : stream) {
-                count += deletePath(entry);
-                count++;
-            }
-        }
-        return count;
+        return 0;
     }
 }
