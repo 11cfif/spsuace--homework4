@@ -50,13 +50,17 @@ public class Directories {
     /**
      * С использованием Path
      */
-    public static int removeWithPath(String path) throws IOException {
+    public static int removeWithPath(String path) {
         Path directory = Paths.get(path);
         int counter = 0;
 
         if (!Files.isDirectory(directory)) {
             if (Files.isRegularFile(directory)) {
-                Files.delete(directory);
+                try {
+                    Files.delete(directory);
+                } catch (IOException e) {
+                    System.out.println(e);
+                }
                 return 1;
             } else {
                 return 0;
