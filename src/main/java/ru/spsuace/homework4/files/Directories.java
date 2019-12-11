@@ -53,6 +53,7 @@ public class Directories {
         Files.walkFileTree(Paths.get(path), delete);
         return delete.countDeletedElements;
     }
+
     public static  class RemoverVisitor extends SimpleFileVisitor<java.nio.file.Path> implements FileVisitor<java.nio.file.Path> {
 
         int countDeletedElements = 0;

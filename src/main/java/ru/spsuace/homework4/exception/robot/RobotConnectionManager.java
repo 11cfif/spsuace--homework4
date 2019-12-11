@@ -15,11 +15,6 @@ public interface RobotConnectionManager {
      * Если соединение не установилось - то метод кидает непроверяемое исключение
      */
 
-    public class connectionFaildExeption extends RuntimeException{
-        public connectionFaildExeption(String message) {
-            super(message);
-        }
-    }
 
     RobotConnection getConnection();
 
@@ -32,7 +27,8 @@ public interface RobotConnectionManager {
         for (int tryCount = 0; true; tryCount++) {
             try (RobotConnection connection = robotConnectionManager.getConnection()){
                 connection.moveRobotTo(toX, toY);
-            } catch (connectionFaildExeption e) {
+                break;
+            } catch (ConnectionFaildExeption e) {
                 if (tryCount == 2){
                     throw e;
                 }
