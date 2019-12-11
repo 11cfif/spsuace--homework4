@@ -20,31 +20,26 @@ public class Directories {
      * Написать двумя способами. С использованием File
      */
     public static int removeWithFile(String path) {
-        final File mainFile = new File(path);
+        final File file = new File(path);
 
-        int countFilesAndDirectories = 0;
-        if (mainFile.exists() && mainFile.isDirectory()) {
-            File[] allContents = mainFile.listFiles();
-            if (allContents != null) {
-                for (File currentFile : allContents) {
-                    if (currentFile.isFile()) {
-                        currentFile.delete();
-                        countFilesAndDirectories += 1;
-                    }
-                    if (currentFile.isDirectory()) {
-                        countFilesAndDirectories += removeWithFile(currentFile.getPath());
-                    }
-                }
-                countFilesAndDirectories += 1;
-            } else {
-                countFilesAndDirectories = 1;
-                return countFilesAndDirectories;
-            }
-            mainFile.delete();
-        } else {
-            return 0;
+        if (!file.exists() ) {
+            return  0;
         }
-        return countFilesAndDirectories;
+
+        return deleteFile(file) + 1;
+    }
+
+    private static int deleteFile(File file) {
+        int count = 0;
+
+        if (file.isDirectory()) {
+            for (File f : file.listFiles()) {
+                count += deleteFile(f);
+                count++;
+            }
+        }
+
+        return count;
     }
 
     /**
