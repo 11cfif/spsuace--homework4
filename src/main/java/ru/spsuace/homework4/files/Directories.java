@@ -60,14 +60,11 @@ public class Directories {
 
     private static int deletePath(Path file) throws IOException {
         int count = 0;
-        try {
-            List<Path> stream = Files.walk(file).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+        try (DirectoryStream<Path> stream = (DirectoryStream<Path>) Files.walk(file).sorted(Comparator.reverseOrder()).collect(Collectors.toList())) {
             for (Path entry : stream) {
                 count += deletePath(entry);
                 count++;
             }
-        } catch (IOException e) {
-            System.out.println(e);
         }
         return count;
     }
