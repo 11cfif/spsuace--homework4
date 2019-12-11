@@ -1,9 +1,10 @@
 package ru.spsuace.homework4.files;
 import java.io.File;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Directories {
 
@@ -22,7 +23,12 @@ public class Directories {
         if (mainFile.exists() && mainFile.isDirectory()) {
             File[] allFile = mainFile.listFiles();
             if (allFile != null) {
-                countFiles += 1;
+                for(File thisFile:allFile){
+                    if(thisFile.isFile()){
+                        thisFile.delete();
+                        countFiles+=1;
+                    }
+                }
             } else {
                 for (int i = 0; i < allFile.length; i++) {
                     if (allFile[i].isFile()) {
@@ -46,7 +52,24 @@ public class Directories {
     /**
      * С использованием Path
      */
-    public static int removeWithPath(String path) {
+    public static int removeWithPath(String path1) {
+
+        Path path = Paths.get(path1);
+
+        if (Files.exists(path)) {
+            try {
+                List<Path> listPath = Files.walk(path)
+                        .sorted(Comparator.reverseOrder())
+                        .collect(Collectors.toList());
+
+                for (Path element : listPath) {
+                    Files.deleteIfExists(element);
+                }
+                return listPath.size();
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+        }
         return 0;
     }
 }
