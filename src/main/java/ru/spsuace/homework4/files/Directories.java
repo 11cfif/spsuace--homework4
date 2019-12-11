@@ -37,7 +37,8 @@ public class Directories {
      * С использованием Path
      */
     public static int removeWithPath(String path) {
-       return 0;
+
+        return 0;
     }
 
 
