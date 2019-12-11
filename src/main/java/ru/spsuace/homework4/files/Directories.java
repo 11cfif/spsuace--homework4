@@ -68,6 +68,7 @@ public class Directories {
         try {
             Files.walkFileTree(start, deletePaths);
         } catch (IOException exception) {
+            return 0;
         }
 
         return deletePaths.countFilesAndDirectories;
