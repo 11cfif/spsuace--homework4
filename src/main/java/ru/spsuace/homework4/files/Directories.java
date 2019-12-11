@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Directories {
@@ -20,21 +21,31 @@ public class Directories {
      */
     public static int removeWithFile(String path) {
         final File file = new File(path);
+        int count = 0;
 
         if (!file.exists() ) {
             return  0;
         }
 
-        return deleteFile(file) + 1;
-    }
-
-    private static int deleteFile(File file) {
-        int count = 0;
-
-        if (file.isDirectory()) {
-            for (File f : file.listFiles()) {
-                count += deleteFile(f);
-                count++;
+        if (file.exists()) {
+            if (file.isDirectory()) {
+                File[] children = file.listFiles();
+                if (children != null) {
+                    for (File currentChild : children) {
+                        if (currentChild.isFile()) {
+                            currentChild.delete();
+                            count += 1;
+                        } else if (currentChild.isDirectory()) {
+                            count += removeWithFile(currentChild.getPath());
+                        }
+                    }
+                }
+                file.delete();
+                count += 1;
+            }
+            if (file.isFile()) {
+                file.delete();
+                count += 1;
             }
         }
 
@@ -46,15 +57,31 @@ public class Directories {
      */
     public static int removeWithPath(String path) throws IOException {
         final Path file = Paths.get(path);
+
         if (!file.toFile().exists()) {
             return 0;
         }
+
+        try {
+            List<Path> pathList = Files.walk(file)
+                    .sorted(Comparator.reverseOrder())
+                    .collect(Collectors.toList());
+            for (Path item : pathList) {
+                Files.deleteIfExists(item);
+            }
+            return pathList.size();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return deletePath(file) + 1;
     }
 
     private static int deletePath(Path file) throws IOException {
         int count = 0;
-        try (DirectoryStream<Path> stream = (DirectoryStream<Path>) Files.walk(file).sorted(Comparator.reverseOrder()).collect(Collectors.toList())) {
+        try (DirectoryStream<Path> stream = (DirectoryStream<Path>) Files.walk(file)
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList())) {
             for (Path entry : stream) {
                 count += deletePath(entry);
                 count++;
