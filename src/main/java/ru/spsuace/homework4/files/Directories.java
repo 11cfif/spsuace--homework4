@@ -14,16 +14,13 @@ public class Directories {
      */
     public static int removeWithFile(String path) {
         final File file = new File(path);
-        if (!file.exists()) {
-            return 0;
-        }
         return delete(file) + 1;
     }
 
     private static int delete(File file) {
         int count = 0;
         if (!file.exists()) {
-            return 0;
+            return -1;
         }
         if (file.isDirectory()) {
             for (File f : Objects.requireNonNull(file.listFiles())) {
