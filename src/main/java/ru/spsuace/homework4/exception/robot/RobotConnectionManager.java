@@ -24,7 +24,7 @@ public interface RobotConnectionManager {
     static void moveRobot(RobotConnectionManager robotConnectionManager, int toX, int toY) throws RobotException {
         for (int i = 0; i < 3; i++) {
             try (RobotConnection connection = robotConnectionManager.getConnection()) {
-                connection.moveRobotTo(10, 10);
+                connection.moveRobotTo(toX, toY);
                 return;
             }
         }
