@@ -21,7 +21,18 @@ public interface RobotConnectionManager {
      * Если так же произошла неудача, то прокинуть эту ошибку на уровень выше.
      * Попытка считается успешной, если соединение открылось и вызвался метод moveRobotTo без исключений.
      */
-    static void moveRobot(RobotConnectionManager robotConnectionManager, int toX, int toY) {
+    static void moveRobot(RobotConnectionManager robotConnectionManager, int toX, int toY) throws RobotException {
+        for (int i = 0; i < 3; i++) {
+            try (RobotConnection connection = robotConnectionManager.getConnection()) {
+                connection.moveRobotTo(10, 10);
+                return;
+            }
+        }
+    }
 
+    class RobotException extends Throwable {
+        public RobotException(String message) {
+            super(message);
+        }
     }
 }

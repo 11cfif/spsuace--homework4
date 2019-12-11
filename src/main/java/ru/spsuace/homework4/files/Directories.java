@@ -6,6 +6,9 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Directories {
 
@@ -57,13 +60,15 @@ public class Directories {
 
     private static int deletePath(Path file) throws IOException {
         int count = 0;
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(file)) {
+        try {
+            List<Path> stream = Files.walk(file).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
             for (Path entry : stream) {
-                count++;
                 count += deletePath(entry);
+                count++;
             }
+        } catch (IOException e) {
+            System.out.println(e);
         }
-        Files.delete(file);
         return count;
     }
 }
