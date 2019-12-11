@@ -63,7 +63,9 @@ public class Directories {
             }
         }
         try {
-            List<Path> directoryList = Files.walk(directory).sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+            List<Path> directoryList = Files.walk(directory)
+                    .sorted(Comparator.reverseOrder())
+                    .collect(Collectors.toList());
             for (Path item : directoryList) {
                 Files.deleteIfExists(item);
                 counter++;
