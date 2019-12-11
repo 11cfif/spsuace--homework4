@@ -43,4 +43,24 @@ public class Field {
         }
         return position.getY() <= height && position.getY() >= 0;
     }
+
+    Robot getRobotByName(String name) {
+        return robots.getByName(name);
+    }
+
+    void moveRobotByNameTo(String name, Position position) {
+        Robot robot = robots.getByName(name);
+        if (!positionInField(position)) {
+            throw new RobotException(robot, "not moved, target position outside the field");
+        }
+        while (!robot.getPosition().equals(position)) {
+            Position nextPosition = robot.getNextPosition(position);
+            if (robots.getByPosition(nextPosition) == null) {
+                robot.step(nextPosition);
+            }
+            else{
+                break;
+            }
+        }
+    }
 }

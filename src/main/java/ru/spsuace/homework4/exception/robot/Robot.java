@@ -1,6 +1,6 @@
 package ru.spsuace.homework4.exception.robot;
 
-import java.awt.*;
+
 import java.util.ArrayList;
 
 /**
@@ -13,25 +13,26 @@ public class Robot {
     private Position position;
     private ArrayList<Position> positionHistory = new ArrayList<>();
 
-    public boolean move(Direction direction) {
-        int x = 0, y = 0;
-        switch (direction) {
-            case RIGHT:
-                x++;
-                break;
-            case LEFT:
-                x--;
-                break;
-            case DOWN:
-                y--;
-                break;
-            case UP:
-                y++;
-                break;
-        }
+    void step(Position targetPosition) {
         positionHistory.add(position);
-        position = new Position(position.getX() + x, position.getY() + y);
-        return true;
+        position = getNextPosition(targetPosition);
+    }
+
+    Position getNextPosition(Position targetPosition) {
+        int x = 0, y = 0;
+        if (targetPosition.getX() > position.getX()) {
+            x++;
+        }
+        if (targetPosition.getX() < position.getX()) {
+            x--;
+        }
+        if (targetPosition.getY() > position.getY()) {
+            y++;
+        }
+        if (targetPosition.getY() < position.getY()) {
+            y--;
+        }
+        return new Position(position.getX() + x, position.getY() + y);
     }
 
     public Position[] getPositionHistory() {
