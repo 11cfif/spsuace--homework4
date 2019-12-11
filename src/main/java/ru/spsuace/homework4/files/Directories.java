@@ -61,19 +61,12 @@ public class Directories {
         if (!file.toFile().exists()) {
             return 0;
         }
-
-        try {
-            List<Path> pathList = Files.walk(file)
+        List<Path> pathList = Files.walk(file)
                     .sorted(Comparator.reverseOrder())
                     .collect(Collectors.toList());
-            for (Path item : pathList) {
-                Files.deleteIfExists(item);
-            }
-            return pathList.size();
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (Path item : pathList) {
+            Files.deleteIfExists(item);
         }
-
-        return 0;
+        return pathList.size();
     }
 }
