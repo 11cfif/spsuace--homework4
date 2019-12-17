@@ -22,6 +22,15 @@ public interface RobotConnectionManager {
      * Попытка считается успешной, если соединение открылось и вызвался метод moveRobotTo без исключений.
      */
     static void moveRobot(RobotConnectionManager robotConnectionManager, int toX, int toY) {
-
+        int attempt = 0;
+        while (attempt < 3) {
+            try (RobotConnection connection = robotConnectionManager.getConnection()) {
+                attempt++;
+                connection.moveRobotTo(toX, toY);
+                return;
+            } catch (RobotException e) {
+                throw e;
+            }
+        }
     }
 }
