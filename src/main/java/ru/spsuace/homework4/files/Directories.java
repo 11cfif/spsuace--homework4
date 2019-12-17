@@ -3,6 +3,7 @@ package ru.spsuace.homework4.files;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,10 +37,35 @@ public class Directories {
     /**
      * С использованием Path
      */
-    public static int removeWithPath(String path) {
+    public static int removeWithPath(String path) throws IOException {
+        Path dir_folder = Paths.get(path);
+        int count = 0;
+        if (Files.exists(dir_folder)) {
+            final List<Path> pathsToDelete = Files
+                    .walk(dir_folder)
+                    .sorted(Comparator.reverseOrder())
+                    .collect(Collectors.toList());
 
-        return 0;
+            for (Path delete_path : pathsToDelete) {
+                Files.deleteIfExists(delete_path);
+                count++;
+            }
+            return count;
+        } else {
+            return 0;
+        }
     }
 
-
+//        if (Files.exists(dir_folder)) {
+//            try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir_folder)) {
+//                for (Path entry : stream) {
+//                    Files.delete(entry);
+//                    count++;
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//            return count;
+//    }
 }
