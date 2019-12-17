@@ -30,7 +30,7 @@ public class RobotsTest {
         Field field = new Field(10, 10);
         Robot robot = new Robot("Anna");
         field.addRobot(robot, new Position(1, 2));
-        RobotConnectManager manager = new RobotConnectManager(field);
+        ConnectionManager manager = new ConnectionManager(field);
         manager.selectRobot("Anna");
         RobotConnectionManager.moveRobot(manager, 4, 5);
         assertEquals(new Position(4, 5), robot.getPosition());
@@ -43,7 +43,7 @@ public class RobotsTest {
         Robot robot2 = new Robot("Nik");
         field.addRobot(robot1, new Position(1, 2));
         field.addRobot(robot2, new Position(1, 3));
-        RobotConnectManager manager = new RobotConnectManager(field);
+        ConnectionManager manager = new ConnectionManager(field);
         manager.selectRobot("Anna");
         RobotConnectionManager.moveRobot(manager, 5, 1);
         manager.selectRobot("Nik");

@@ -43,11 +43,11 @@ public class Directories {
         if (file.toFile().exists()) {
             try {
                 if (Files.isDirectory(file)) {
-                    DirectoryStream<Path> directoryStream = Files.newDirectoryStream(file);
-                    for (Path f : directoryStream) {
-                        countRemoved += removeWithPath(f.toString());
+                    try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(file)) {
+                        for (Path f : directoryStream) {
+                            countRemoved += removeWithPath(f.toString());
+                        }
                     }
-                    directoryStream.close();
                 }
                 Files.delete(file);
                 return countRemoved + 1;

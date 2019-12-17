@@ -57,8 +57,7 @@ public class Field {
             Position nextPosition = robot.getNextPosition(position);
             if (robots.getByPosition(nextPosition) == null) {
                 robot.step(nextPosition);
-            }
-            else{
+            } else {
                 break;
             }
         }
