@@ -19,18 +19,18 @@ public class Directories {
      * Написать двумя способами. С использованием File
      */
     public static int removeWithFile(String path) {
-        File current_file = new File(path);
-        if (!current_file.exists()) {
+        File currentFile = new File(path);
+        if (!currentFile.exists()) {
             return 0;
         }
 
         int count = 1;
-        if (current_file.isDirectory()) {
-            for (File file : current_file.listFiles()) {
+        if (currentFile.isDirectory()) {
+            for (File file : currentFile.listFiles()) {
                 count += removeWithFile(file.getPath());
             }
         }
-        current_file.delete();
+        currentFile.delete();
 
         return count;
     }
@@ -39,21 +39,21 @@ public class Directories {
      * С использованием Path
      */
     public static int removeWithPath(String path) {
-        Path current_path = Paths.get(path);
-        if (!Files.exists(current_path)) {
+        Path currentPath = Paths.get(path);
+        if (!Files.exists(currentPath)) {
             return 0;
         }
 
         long count = 0;
 
         try {
-            count = Files.walk(current_path).count();
+            count = Files.walk(currentPath).count();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
-            Files.walk(current_path)
+            Files.walk(currentPath)
                     .sorted(Comparator.reverseOrder())
                     .forEach(x -> {
                         try {
