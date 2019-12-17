@@ -41,7 +41,7 @@ public class Directories {
         Path dir_folder = Paths.get(path);
         int count = 0;
         if (Files.exists(dir_folder)) {
-            final List<Path> pathsToDelete = Files
+            List<Path> pathsToDelete = Files
                     .walk(dir_folder)
                     .sorted(Comparator.reverseOrder())
                     .collect(Collectors.toList());
@@ -50,22 +50,8 @@ public class Directories {
                 Files.deleteIfExists(delete_path);
                 count++;
             }
-            return count;
-        } else {
-            return 0;
         }
+            return count;
     }
 
-//        if (Files.exists(dir_folder)) {
-//            try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir_folder)) {
-//                for (Path entry : stream) {
-//                    Files.delete(entry);
-//                    count++;
-//                }
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//            return count;
-//    }
 }
