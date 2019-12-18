@@ -16,17 +16,15 @@ public class Robot {
     int Y;
 
 
-    List<Robot> arrCoord = new ArrayList<>();
+    List<Coord> arrCoord = new ArrayList<>();
 
     void addMemory(int x, int y) {
-        arrCoord.add(new Robot(x, y));
+        arrCoord.add(new Coord(x,y));
     }
 
     void clearMemory() {
         arrCoord.clear();
     }
-
-
 
     Robot(int x, int y) {
         this.X = x;
