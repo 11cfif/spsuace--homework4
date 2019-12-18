@@ -29,7 +29,9 @@ public interface RobotConnectionManager {
                 connection.moveRobotTo(toX, toY);
                 return;
             } catch (RobotException e) {
-                throw e;
+                if (attempt == 2) {
+                    throw e;
+                }
             }
         }
     }
