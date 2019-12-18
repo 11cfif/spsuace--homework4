@@ -2,11 +2,11 @@ package ru.spsuace.homework4.files;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Comparator;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
 public class Directories {
@@ -44,19 +44,14 @@ public class Directories {
             return 0;
         }
 
-        long count = 0;
+        AtomicLong count = new AtomicLong(0);
 
-        try {
-            count = Files.walk(currentPath).count();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            Files.walk(currentPath)
+        try (Stream<Path> fileWalk = Files.walk(currentPath)) {
+            fileWalk
                     .sorted(Comparator.reverseOrder())
                     .forEach(x -> {
                         try {
+                            count.incrementAndGet();
                             Files.delete(x);
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -66,6 +61,6 @@ public class Directories {
             e.printStackTrace();
         }
 
-        return (int) count;
+        return (int) count.get();
     }
 }
