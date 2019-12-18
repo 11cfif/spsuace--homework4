@@ -22,15 +22,14 @@ public interface RobotConnectionManager {
      * Попытка считается успешной, если соединение открылось и вызвался метод moveRobotTo без исключений.
      */
 
-    static void moveRobot(RobotConnectionManager robotConnectionManager, int toX, int toY) {
-        boolean success = false;
-        for (int i = 0; !success && (i < 3); ++i) {
+    static void moveRobot(RobotConnectionManager robotConnectionManager, int toX, int toY) throws RobotException {
+        for (int i = 0; true; ++i) {
             try (RobotConnection connection = robotConnectionManager.getConnection()) {
                 connection.moveRobotTo(toX, toY);
                 System.err.println(" X: " + toX + " ,Y:  " + toY);
                 break;
             } catch (RobotException e) {
-                throw e;
+                if (i == 2) throw e;
             }
         }
     }
