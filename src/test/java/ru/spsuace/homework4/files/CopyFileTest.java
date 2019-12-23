@@ -142,12 +142,9 @@ public class CopyFileTest {
     }
 
     private void createFile(Path path) throws IOException {
-        List<String> strings = Arrays.asList("Жили-были три китайца: Як, Як-цедрак, Як-цедрак-цедрак-цедрони.",
-                "Жили-были три китайки: Цыпа, Цыпа-дрыпа, Цыпа-дрыпа-дрымпампони.",
-                "Все они переженились: Як на Цыпе, Як-цедрак на Цыпе-дрыпе,",
-                "Як-цедрак-цедрак-цедрони на Цыпе-дрыпе-дрымпампони.",
-                "И у них родились дети. У Яка с Цыпой — Шах, у Яка-цедрака с Цыпой-дрыпой — Шах-",
-                "шарах, у Яка-цедрака-цедрака-цедрони с Цыпой-дрыпой-дрымпампони — Шах-шарах-шарах-широни.");
+        List<String> strings = Arrays.asList("fdjgkjf'gkfdjgdlkdfgkldfjklgdkfsj;dfjgiosgpdkfjgkjdhgjkdfglk;djv;dfnznv" +
+                "kgdfkldfjhg;dfmhbkgfkdjhgjfd;h" +
+                "dhgfdhf'gkhfgbmmnkjfgd;jkglmdfkjgkl;skfd");
         Files.write(path, strings, StandardOpenOption.CREATE_NEW);
     }
 
