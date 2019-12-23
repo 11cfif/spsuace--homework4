@@ -39,26 +39,28 @@ public class CopyFile {
         File out = new File(pathFrom);
         File to = new File(pathTo);
         System.out.println(pathTo);
-        if (out.isDirectory()) {
-            if(!to.exists()) {
-                Files.createDirectories(Paths.get(to.toString()));
-            }
-            String[] allFiles = out.list();
-            for (int i = 0; i < allFiles.length; i++) {
-                copyDir(new File(out, allFiles[i]).toString(), new File(to, allFiles[i]).toString());
-            }
-        } else {
-            BufferedInputStream bufferInputStream = new BufferedInputStream(new FileInputStream(out));
-            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(to));
-            try {
-                byte[] buff = new byte[1024];
-                int len;
-                while ((len = bufferInputStream.read(buff)) > 0) {
-                    bufferedOutputStream.write(buff, 0, len);
+        if (out.exists()) {
+            if (out.isDirectory()) {
+                if (!to.exists()) {
+                    Files.createDirectories(Paths.get(to.toString()));
                 }
-            } finally {
-                bufferInputStream.close();
-                bufferedOutputStream.close();
+                String[] allFiles = out.list();
+                for (int i = 0; i < allFiles.length; i++) {
+                    copyDir(new File(out, allFiles[i]).toString(), new File(to, allFiles[i]).toString());
+                }
+            } else {
+                BufferedInputStream bufferInputStream = new BufferedInputStream(new FileInputStream(out));
+                BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(to));
+                try {
+                    byte[] buff = new byte[1024];
+                    int len;
+                    while ((len = bufferInputStream.read(buff)) > 0) {
+                        bufferedOutputStream.write(buff, 0, len);
+                    }
+                } finally {
+                    bufferInputStream.close();
+                    bufferedOutputStream.close();
+                }
             }
         }
     }
