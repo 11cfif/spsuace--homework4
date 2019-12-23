@@ -5,6 +5,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CopyFile {
 
@@ -12,8 +14,6 @@ public class CopyFile {
      * Реализовать копирование больших файлов через стримы.
      */
     public static void copyFile(String pathFrom, String pathTo) throws IOException {
-
-        File in = new File(pathTo);
         Path inf = Paths.get(pathTo);
         Files.createDirectories(inf.getParent());
         BufferedInputStream bufferInputStream = new BufferedInputStream(new FileInputStream(pathFrom));
@@ -35,11 +35,24 @@ public class CopyFile {
      * Реализовать копирование из одной директории в другую
      */
     public static void copyDir(String pathFrom, String pathTo) throws IOException {
-//        File from = new File(pathFrom);
-//        File to = new File(pathTo);
-//
-//        if (to.isFile()){
-//
-//        }
+
+        File out = new File(pathFrom);
+        File to = new File(pathTo);
+        System.out.println(pathTo);
+        if (out.exists()) {
+            if(!to.exists()) {
+                Files.createDirectories(Paths.get(to.toString()));
+            }
+            File[] allFiles = out.listFiles();
+            for(File file : allFiles) {
+                if (file.isDirectory()) {
+                    copyDir(file.toString(), pathTo);
+                    System.out.println(pathTo);
+                    continue;
+                } else {
+                    continue;
+                }
+            }
+        }
     }
 }
