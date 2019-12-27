@@ -4,9 +4,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class CopyFile {
 
@@ -30,7 +27,6 @@ public class CopyFile {
         }
     }
 
-
     /**
      * Реализовать копирование из одной директории в другую
      */
@@ -38,30 +34,31 @@ public class CopyFile {
 
         File out = new File(pathFrom);
         File to = new File(pathTo);
-        System.out.println(pathTo);
+        System.out.println(out);
+        System.out.println(to);
+
         if (out.exists()) {
             if (out.isDirectory()) {
                 if (!to.exists()) {
                     Files.createDirectories(Paths.get(to.toString()));
                 }
                 String[] allFiles = out.list();
-                for (int i = 0; i < allFiles.length; i++) {
-                    copyDir(new File(out, allFiles[i]).toString(), new File(to, allFiles[i]).toString());
+                for (String s : allFiles) {
+                    copyDir(new File(out, s).toString(), new File(to, s).toString());
                 }
             } else {
-                BufferedInputStream bufferInputStream = new BufferedInputStream(new FileInputStream(out));
-                BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(to));
-                try {
-                    byte[] buff = new byte[1024];
-                    int len;
-                    while ((len = bufferInputStream.read(buff)) > 0) {
-                        bufferedOutputStream.write(buff, 0, len);
+
+                try (BufferedInputStream bufferInputStream = new BufferedInputStream(new FileInputStream(out))) {
+                    try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(to))) {
+                        byte[] buff = new byte[1024];
+                        int len;
+                        while ((len = bufferInputStream.read(buff)) > 0) {
+                            bufferedOutputStream.write(buff, 0, len);
+                        }
                     }
-                } finally {
-                    bufferInputStream.close();
-                    bufferedOutputStream.close();
                 }
             }
         }
     }
 }
+
