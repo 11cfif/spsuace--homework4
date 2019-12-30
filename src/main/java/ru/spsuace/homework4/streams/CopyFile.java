@@ -11,19 +11,19 @@ public class CopyFile {
      * Реализовать копирование больших файлов через стримы.
      */
     public static void copyFile(String pathFrom, String pathTo) throws IOException {
+        File out = new File(pathFrom);
+        File to = new File(pathTo);
+
         Path inf = Paths.get(pathTo);
         Files.createDirectories(inf.getParent());
-        BufferedInputStream bufferInputStream = new BufferedInputStream(new FileInputStream(pathFrom));
-        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(pathTo));
-        try {
-            byte[] buff = new byte[1024];
-            int len;
-            while ((len = bufferInputStream.read(buff)) > 0) {
-                bufferedOutputStream.write(buff, 0, len);
+        try (BufferedInputStream bufferInputStream = new BufferedInputStream(new FileInputStream(out))) {
+            try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(to))) {
+                byte[] buff = new byte[1024];
+                int len;
+                while ((len = bufferInputStream.read(buff)) > 0) {
+                    bufferedOutputStream.write(buff, 0, len);
+                }
             }
-        } finally {
-            bufferInputStream.close();
-            bufferedOutputStream.close();
         }
     }
 
@@ -34,8 +34,6 @@ public class CopyFile {
 
         File out = new File(pathFrom);
         File to = new File(pathTo);
-        System.out.println(out);
-        System.out.println(to);
 
         if (out.exists()) {
             if (out.isDirectory()) {
@@ -47,16 +45,7 @@ public class CopyFile {
                     copyDir(new File(out, s).toString(), new File(to, s).toString());
                 }
             } else {
-
-                try (BufferedInputStream bufferInputStream = new BufferedInputStream(new FileInputStream(out))) {
-                    try (BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(to))) {
-                        byte[] buff = new byte[1024];
-                        int len;
-                        while ((len = bufferInputStream.read(buff)) > 0) {
-                            bufferedOutputStream.write(buff, 0, len);
-                        }
-                    }
-                }
+                copyFile(pathFrom, pathTo);
             }
         }
     }
