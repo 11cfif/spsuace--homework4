@@ -1,5 +1,7 @@
 package ru.spsuace.homework4.files;
 
+import java.io.File;
+
 public class Directories {
 
 
@@ -10,7 +12,32 @@ public class Directories {
      * Написать двумя способами. С использованием File
      */
     public static int removeWithFile(String path) {
-        return 0;
+        int countDir = 0;
+        File Directory = new File(path);
+        if (!Directory.exists()) {
+            return countDir;
+        } else {
+            if (Directory.isDirectory()) {
+                File[] DirectoryFiles = Directory.listFiles();
+                if (DirectoryFiles != null) {
+                    for (File currentFile : DirectoryFiles) {
+                        if (currentFile.isFile()) {
+                            currentFile.delete();
+                            countDir += 1;
+                        } else if (currentFile.isDirectory()) {
+                            countDir += removeWithFile(currentFile.getPath());
+                        }
+                    }
+                }
+                Directory.delete();
+                countDir += 1;
+            }
+            if (Directory.isFile()) {
+                Directory.delete();
+                countDir += 1;
+            }
+        }
+        return countDir;
     }
 
     /**
