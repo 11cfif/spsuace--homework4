@@ -2,11 +2,10 @@ package ru.spsuace.homework4.exception.robot;
 
 /**
  * Класс отвечает за установку соединения с роботом.
- *
+ * <p>
  * Задание: нужно создать исключение (1 балл) и реализовать метод moveRobot (2 балла)
  * Дополнительное задание: Сделать простую реализациюю RobotConnectionManager(1 балл) и RobotConnection (1 балл)
  * и класс Robot (2 балла максимум)
- *
  */
 public interface RobotConnectionManager {
 
@@ -22,6 +21,17 @@ public interface RobotConnectionManager {
      * Попытка считается успешной, если соединение открылось и вызвался метод moveRobotTo без исключений.
      */
     static void moveRobot(RobotConnectionManager robotConnectionManager, int toX, int toY) {
+
+        for (int i = 0; i < 3; i++) {
+            try (RobotConnection connection = robotConnectionManager.getConnection()) {
+                connection.moveRobotTo(toX, toY);
+            } catch (RobotConnectionException e) {
+                if (i == 2) {
+                    throw new RobotConnectionException();
+                }
+            }
+        }
+
 
     }
 }
