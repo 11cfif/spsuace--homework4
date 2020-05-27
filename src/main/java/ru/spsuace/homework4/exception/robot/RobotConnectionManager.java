@@ -25,6 +25,7 @@ public interface RobotConnectionManager {
         for (int i = 0; i < 3; i++) {
             try (RobotConnection connection = robotConnectionManager.getConnection()) {
                 connection.moveRobotTo(toX, toY);
+                break;
             } catch (RobotConnectionException e) {
                 if (i == 2) {
                     throw new RobotConnectionException();

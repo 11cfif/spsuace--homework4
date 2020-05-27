@@ -7,17 +7,10 @@ package ru.spsuace.homework4.exception.robot;
  */
 public class Robot {
 
-    private boolean connection = true;
     private int currentX = 0;
     private int currentY = 0;
     private int endX;
     private int endY;
-
-    public Robot(int endX, int endY) {
-        this.endX = endX;
-        this.endY = endY;
-        System.out.println("Robot connection opened");
-    }
 
     public int getX() {
         return currentX;
@@ -25,6 +18,14 @@ public class Robot {
 
     public int getY() {
         return currentY;
+    }
+
+    public void setX(int endX) {
+        this.endX = endX;
+    }
+
+    public void setY(int endY) {
+        this.endY = endY;
     }
 
     public void moveRight() {
@@ -44,17 +45,9 @@ public class Robot {
     }
 
     public boolean isFinished() {
-        if (currentX == endX && currentY == endY) {
-            connection = false;
-            return true;
-        } else {
-            return false;
-        }
+        return (currentX == endX && currentY == endY);
     }
-
-    public boolean getConnection() {
-        return connection;
-    }
-
-
 }
+
+
+
